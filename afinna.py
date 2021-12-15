@@ -1,14 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
-
-# Demo file for Spyder Tutorial
-# Hans Fangohr, University of Southampton, UK
 import string
 import math
+import re
+
+from PyQt5 import QtWidgets
+
+from GUICKO import Ui_MainWindow
 Abeceda = string.ascii_uppercase
 
 def upperChar(text: str):
@@ -75,29 +71,29 @@ def returnSpace(text: str):
     return text
 
 def replaceNumber(text: str):
-    text = text.replace('0', 'XZEROX')
-    text = text.replace('1', 'XONEX') 
-    text = text.replace('2', 'XTWOX')
-    text = text.replace('3', 'XTHREEX')
-    text = text.replace('4', 'XFOURX')
-    text = text.replace('5', 'XFIVEX')
-    text = text.replace('6', 'XSIXX')
-    text = text.replace('7', 'XSEVENX')
-    text = text.replace('8', 'XEIGHTX')
-    text = text.replace('9', 'XNINEX')
+    text = text.replace('0', 'XZEX')
+    text = text.replace('1', 'XONX') 
+    text = text.replace('2', 'XTWX')
+    text = text.replace('3', 'XTHX')
+    text = text.replace('4', 'XFOX')
+    text = text.replace('5', 'XFVX')
+    text = text.replace('6', 'XSIX')
+    text = text.replace('7', 'XSEX')
+    text = text.replace('8', 'XEIX')
+    text = text.replace('9', 'XNIX')
     return text
     
 def replaceNumberBack(text: str):
-    text = text.replace('XZEROX','0')
-    text = text.replace('XONEX','1')
-    text = text.replace('XTWOX','2')
-    text = text.replace('XTHREEX','3')
-    text = text.replace('XFOURX','4')
-    text = text.replace('XFIVEX','5')
-    text = text.replace('XSIXX','6')
-    text = text.replace('XSEVENX','7')
-    text = text.replace('XEIGHTX','8')
-    text = text.replace('XNINEX', '9')
+    text = text.replace('XZEX','0')
+    text = text.replace('XONX','1')
+    text = text.replace('XTWX','2')
+    text = text.replace('XTHX','3')
+    text = text.replace('XFOX','4')
+    text = text.replace('XFIX','5')
+    text = text.replace('XSIX','6')
+    text = text.replace('XSEX','7')
+    text = text.replace('XEIX','8')
+    text = text.replace('XNIX', '9')
     return text
 
 def egcd(a, b):
@@ -123,7 +119,7 @@ def multIverz(a, m):
     else:
         return x % m
 
-def encrypt(vstupText, kluc):
+def encrypt(vstupText, klucA, klucB):
     sifrovany = ''
     
     vstupText = upperChar(vstupText)
@@ -131,42 +127,56 @@ def encrypt(vstupText, kluc):
     vstupText = replaceSpace(vstupText)
     vstupText = replaceNumber(vstupText)
     
-    sifrovany = ''.join(Abeceda[(Abeceda.index(znak)*kluc[0]+kluc[1])%26] 
+    sifrovany = ''.join(Abeceda[(Abeceda.index(znak)*klucA+klucB)%26] 
                     for znak in vstupText)   
     return sifrovany
+    #sifrovanyOD = vypis(sifrovany)
      
-def decrypt(sifVstupText, kluc):
+def decrypt(sifVstupText, klucA, klucB):
     desifrovany = ''
-    desifrovany = ''.join( Abeceda[multIverz(kluc[0], 26)*(Abeceda.index(znak)-kluc[1])%26] 
+    desifrovany = ''.join( Abeceda[multIverz(klucA, 26)*(Abeceda.index(znak)-klucB)%26] 
                    for znak in sifVstupText)
     desifrovany = returnSpace(desifrovany)
     desifrovany = replaceNumberBack(desifrovany)
-    
     return desifrovany
 
-def vypis(sifrovany):
-    for i in range(int(len(sifrovany) / 5) + int(len(sifrovany) % 5) + 1):
-        print(sifrovany[((i * 5) - 5 ): i * 5], " ", end="")
-    print()
+    #bprint()
  
-def main():
-    text = 'Ahoj,25 TY DEBIL'
-    key = [7, 1]
-    affine_encrypted_text = encrypt(text, key )
-    affine_decrypted_text = decrypt(affine_encrypted_text, key)
+
+# def __init__(self):
+#     QtWidgets.QMainWindow.__init__(self)
+#     Ui_MainWindow.__init__(self)
+#     self.setupUi(self)
+#     self.pushButton_1.clicked.connect(self.encrypt)
+
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec_())
+# def main():
+#     text = 'Ahoj,25 TY DRAK'
+#     key = [7, 1]
+#     klucA = int(7)
+#     klucB = int(1)
+#     affine_encrypted_text = encrypt(text, klucA, klucB )
+#     affine_decrypted_text = decrypt(affine_encrypted_text, klucA, klucB)
 
     
     
-    print('sifrovane: '); vypis(affine_encrypted_text)
+#     print('sifrovane: '); vypis(affine_encrypted_text)
     
-    print('desifrovane: ' + affine_decrypted_text)
-    n = 5
+#     print('desifrovane: ' + affine_decrypted_text)
+#     n = 5
       
-    string = 'KOKOSOAAOSJDOADFJODSJGSODGJOSDGJOJSDGOSJDGOSJDGOSDJGO'
+#     string = 'KOKOSOAAOSJDOADFJODSJGSODGJOSDGJOJSDGOSJDGOSJDGOSDJGO'
     
-    # Using list comprehension
-    affine_decrypted_text.split()
+#     # Using list comprehension
+#     affine_decrypted_text.split()
       
-    # Printing output
-# Main program starts here
-main()
+#     # Printing output
+# # Main program starts here
+# main()
